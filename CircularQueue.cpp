@@ -1,18 +1,21 @@
 #include <iostream>
+#include <exception>
 using namespace std;
 
-class queues
+const int max = 5;
+
+class Queues
 {
 private:
-    static const int max = 3;
-    int front, rear;
     int queue_array[max];
+    int FRONT_Position;
+    int REAR_Position;
 
 public:
-    queues()
+    Queues()
     {
-        front = -1;
-        rear = -1;
+        FRONT_Position = -1;
+        REAR_Position = -1;
     }
 
     void insert()
@@ -22,49 +25,55 @@ public:
         cin >> num;
         cout << endl;
 
-        if ((front == 0 && rear == max - 1) || (front == rear + 1))
+        // cek apakah antrian penuh
+        if ((FRONT_Position == 0 && REAR_Position == max - 1) || (FRONT_Position == REAR_Position + 1))
         {
-            cout << "\nQueue is full" << endl;
+            cout << "\nQueue overflow\n";
+            return;
         }
-        else if (front == -1)
+
+        // cek apakah antrian kosong
+        if (FRONT_Position == -1)
         {
-            front = 0;
-            rear = 0;
-            queue_array[rear] = num;
-        }
-        else if (rear == max - 1 && front != 0)
-        {
-            rear = 0;
-            queue_array[rear] = num;
+            FRONT_Position = 0;
+            REAR_Position = 0;
         }
         else
         {
-            rear++;
-            queue_array[rear] = num;
+            // jika rear berada di posisi terakhir array, kembali ke awal array
+            if (REAR_Position == max - 1)
+                REAR_Position = 0;
+            else
+                REAR_Position++;
         }
+
+        queue_array[REAR_Position] = num;
     }
 
     void remove()
     {
-        if(front == -1)
+        if (FRONT_Position == -1)
         {
-            cout << "\nQueue is empty" << endl;
+            cout << "\nQueue underflow\n";
+            return;
         }
-        else if (front == rear)
+
+        cout << "Element deleted: " << queue_array[FRONT_Position] << endl;
+
+        if (FRONT_Position == REAR_Position)
         {
-            cout << "\nThe removed element is: " << queue_array[front] << endl;
-            front = -1;
-            rear = -1;
+            // antrian jadi kosong setelah penghapusan
+            FRONT_Position = -1;
+            REAR_Position = -1;
         }
-        else if (front == max - 1)
+        else if (FRONT_Position == max - 1)
         {
-            cout << "\nThe removed element is: " << queue_array[front] << endl;
-            front = 0;
+            FRONT_Position = 0;
         }
         else
         {
-            cout << "\nThe removed element is: " << queue_array[front] << endl;
-            front++;
+            FRONT_Position++;
         }
     }
-};
+
+    void display()
