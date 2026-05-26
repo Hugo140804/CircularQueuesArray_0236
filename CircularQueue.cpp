@@ -8,4 +8,10 @@ private:
     int front, rear;
     int queue_array[max];
 
+public:
+    Queues()
+    {
+        front = -1;
+        rear = -1;
+    }
 };
