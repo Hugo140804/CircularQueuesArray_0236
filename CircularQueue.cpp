@@ -45,4 +45,26 @@ public:
     }
 
     void remove()
+    {
+        if(front == -1)
+        {
+            cout << "\nQueue is empty" << endl;
+        }
+        else if (front == rear)
+        {
+            cout << "\nThe removed element is: " << queue_array[front] << endl;
+            front = -1;
+            rear = -1;
+        }
+        else if (front == max - 1)
+        {
+            cout << "\nThe removed element is: " << queue_array[front] << endl;
+            front = 0;
+        }
+        else
+        {
+            cout << "\nThe removed element is: " << queue_array[front] << endl;
+            front++;
+        }
+    }
 };
