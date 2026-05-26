@@ -9,7 +9,7 @@ private:
     int queue_array[max];
 
 public:
-    Queues()
+    queues()
     {
         front = -1;
         rear = -1;
@@ -22,6 +22,25 @@ public:
         cin >> num;
         cout << endl;
 
-        
+        if ((front == 0 && rear == max - 1) || (front == rear + 1))
+        {
+            cout << "\nQueue is full" << endl;
+        }
+        else if (front == -1)
+        {
+            front = 0;
+            rear = 0;
+            queue_array[rear] = num;
+        }
+        else if (rear == max - 1 && front != 0)
+        {
+            rear = 0;
+            queue_array[rear] = num;
+        }
+        else
+        {
+            rear++;
+            queue_array[rear] = num;
+        }
     }
 };
