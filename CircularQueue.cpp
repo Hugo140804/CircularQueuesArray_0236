@@ -1,21 +1,21 @@
 #include <iostream>
-#include <exception>
 using namespace std;
 
-const int max = 5;
+// CircularQueuesArray_4NIM
+// 15 commit
 
 class Queues
 {
 private:
+    static const int max = 3;
+    int FRONT, REAR;
     int queue_array[max];
-    int FRONT_Position;
-    int REAR_Position;
 
 public:
     Queues()
     {
-        FRONT_Position = -1;
-        REAR_Position = -1;
+        FRONT = -1;
+        REAR = -1;
     }
 
     void insert()
@@ -26,64 +26,70 @@ public:
         cout << endl;
 
         // cek apakah antrian penuh
-        if ((FRONT_Position == 0 && REAR_Position == max - 1) || (FRONT_Position == REAR_Position + 1))
+        if ((FRONT == 0 && REAR == max - 1) || (FRONT == REAR + 1))
         {
             cout << "\nQueue overflow\n";
             return;
         }
 
         // cek apakah antrian kosong
-        if (FRONT_Position == -1)
+        if (FRONT == -1)
         {
-            FRONT_Position = 0;
-            REAR_Position = 0;
+            FRONT = 0;
+            REAR = 0;
         }
         else
         {
             // jika rear berada di posisi terakhir array, kembali ke awal array
-            if (REAR_Position == max - 1)
-                REAR_Position = 0;
+            if (REAR == max - 1)
+                REAR = 0;
             else
-                REAR_Position++;
+                REAR = REAR + 1;
         }
-
-        queue_array[REAR_Position] = num;
+        queue_array[REAR] = num;
     }
 
     void remove()
     {
-        if (FRONT_Position == -1)
+        // cek apakah antrian kosong
+        if (FRONT == -1)
         {
-            cout << "\nQueue underflow\n";
+            cout << "Queue underflow\n";
             return;
         }
+        cout << "\nThe element deleted from the queue is: " << queue_array[FRONT] << "\n";
 
-        cout << "Element deleted: " << queue_array[FRONT_Position] << endl;
-
-        if (FRONT_Position == REAR_Position)
+        // cek jika antrian hanya memiliki satu elemen
+        if (FRONT == REAR)
         {
-            // antrian jadi kosong setelah penghapusan
-            FRONT_Position = -1;
-            REAR_Position = -1;
-        }
-        else if (FRONT_Position == max - 1)
-        {
-            FRONT_Position = 0;
+            FRONT = -1;
+            REAR = -1;
         }
         else
         {
-            FRONT_Position++;
+            // jika elemen yang dihapus berada di posisi terakhir array, kembali ke awal array
+            if (FRONT == max - 1)
+                FRONT = 0;
+            else
+                FRONT = FRONT + 1;
         }
     }
 
     void display()
     {
+        int FRONT_Position = FRONT;
+        int REAR_Position = REAR;
+
+        // cek apakah antrian kosong
         if (FRONT_Position == -1)
         {
-            cout << "\nQueue is empty\n";
+            cout << "Queue is empty\n";
             return;
         }
 
+        cout << "\nElements in the queue are....\n";
+
+        // jika FRONT <= REAR, iterasi dari FRONT hingga REAR
         if (FRONT_Position <= REAR_Position)
         {
             while (FRONT_Position <= REAR_Position)
@@ -91,6 +97,7 @@ public:
                 cout << queue_array[FRONT_Position] << " ";
                 FRONT_Position++;
             }
+            cout << endl;
         }
         else
         {
@@ -109,8 +116,8 @@ public:
                 cout << queue_array[FRONT_Position] << " ";
                 FRONT_Position++;
             }
+            cout << endl;
         }
-        cout << endl;
     }
 };
 
@@ -126,7 +133,7 @@ int main()
             cout << "Menu" << endl;
             cout << "1. Implement insert operation" << endl;
             cout << "2. Implement Delete Operation" << endl;
-            cout << "3. Display values " << endl;
+            cout << "3. Display values" << endl;
             cout << "4. Exit " << endl;
             cout << "Enter your choice (1-4): ";
             cin >> ch;
